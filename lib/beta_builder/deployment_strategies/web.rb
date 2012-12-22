@@ -16,9 +16,9 @@ module BetaBuilder
           end
         end
       end
-      
+
       def prepare
-        plist = CFPropertyList::List.new(:file => "pkg/Payload/#{@configuration.app_name}/Info.plist")
+        plist = CFPropertyList::List.new(:file => "pkg/Payload/#{@configuration.app_file_name}/Info.plist")
         plist_data = CFPropertyList.native_types(plist.value)
         File.open("pkg/dist/manifest.plist", "w") do |io|
           io << %{
@@ -82,9 +82,16 @@ module BetaBuilder
           }
         end
       end
-      
+
       def deploy
-        system("scp pkg/dist/* #{@configuration.remote_host}:#{@configuration.remote_installation_path}")
+        cmd = "scp "
+        if @configuration.remote_port
+          cmd += "-P #{@configuration.remote_port} "
+        end
+
+        cmd += "pkg/dist/* #{@configuration.remote_host}:#{@configuration.remote_installation_path}"
+        puts "* Running `#{cmd}`"
+        system(cmd)
       end
     end
   end

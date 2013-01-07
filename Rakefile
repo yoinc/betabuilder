@@ -74,13 +74,13 @@ end
 desc 'Build and release to Rubygems.org'
 task :release => :package do
   gem_path = File.join('pkg', spec.file_name)
-  system "gem push #{gem_path}"
+  sh "gem push #{gem_path}"
 end
 
 desc 'Build and install the gem'
 task :install => :package do
   gem_path = File.join('pkg', spec.file_name)
-  system("gem install #{gem_path}")
+  sh("gem install #{gem_path}")
 end
 
 namespace :website do
@@ -90,17 +90,17 @@ namespace :website do
   desc "Regenerate the site"
   task :generate do
     Dir.chdir("website") do
-      system("jekyll")
+      sh("jekyll")
     end
   end
-    
+
   task :upload_website => [:generate] do
-    system("rsync -avz --delete website/_site/ lukeredpath.co.uk:#{SITE_ROOT}")
+    sh("rsync -avz --delete website/_site/ lukeredpath.co.uk:#{SITE_ROOT}")
   end
-  
+
   task :dev do
     Dir.chdir("website") do
-      system("jekyll --auto")
+      sh("jekyll --auto")
     end
   end
 end

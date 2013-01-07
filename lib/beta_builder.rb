@@ -32,7 +32,7 @@ module BetaBuilder
 
     def xcodebuild(*args)
       # we're using tee as we still want to see our build output on screen
-      system("#{@configuration.xcodebuild_path} #{args.join(" ")} | tee build.output")
+      sh("#{@configuration.xcodebuild_path} #{args.join(" ")} | tee build.output")
     end
 
     class Configuration < OpenStruct
@@ -136,7 +136,7 @@ module BetaBuilder
           FileUtils.mkdir_p("pkg/Payload")
           FileUtils.mv(@configuration.built_app_path, "pkg/Payload/#{@configuration.app_file_name}")
           Dir.chdir("pkg") do
-            system("zip -r '#{@configuration.ipa_name}' Payload")
+            sh("zip -r '#{@configuration.ipa_name}' Payload")
           end
           FileUtils.mkdir('pkg/dist')
           FileUtils.mv("pkg/#{@configuration.ipa_name}", "pkg/dist")

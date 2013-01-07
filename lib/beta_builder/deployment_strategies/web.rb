@@ -92,6 +92,7 @@ module BetaBuilder
         cmd += "pkg/dist/* #{@configuration.remote_host}:#{@configuration.remote_installation_path}"
         puts "* Running `#{cmd}`"
         system(cmd)
+        raise "command failed" unless $? == 0
       end
     end
   end

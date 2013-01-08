@@ -84,7 +84,7 @@ module BetaBuilder
       end
 
       def deploy
-        cmd = "scp "
+        cmd = "script -q /dev/stdout scp "
         if @configuration.remote_port
           cmd += "-P #{@configuration.remote_port} "
         end

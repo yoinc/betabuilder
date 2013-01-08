@@ -31,8 +31,8 @@ module BetaBuilder
     end
 
     def xcodebuild(*args)
-      # we're using tee as we still want to see our build output on screen
-      sh("#{@configuration.xcodebuild_path} #{args.join(" ")} | tee build.output")
+      # be careful not to discard the return value (by piping to tee, e.g.)
+      sh("#{@configuration.xcodebuild_path} #{args.join(" ")}")
     end
 
     class Configuration < OpenStruct

@@ -27,9 +27,17 @@ module BetaBuilder
           :notify             => @configuration.notify || false,
           :replace            => @configuration.replace || false
         }
+
+        if @configuration.dsym_path
+          payload[:dsym] = File.new(@configuration.dsym_path + '.zip', 'rb')
+        end
+
         puts "Uploading build to TestFlight..."
         if @configuration.verbose
           puts "ipa path: #{@configuration.ipa_path}"
+          if @configuration.dsym_path
+            puts "dsym path: #{@configuration.dsym_path}.zip"
+          end
           puts "release notes: #{release_notes}"
         end
         

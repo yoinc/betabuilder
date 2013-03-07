@@ -51,11 +51,11 @@ module BetaBuilder
         rescue => e
           response = e.response
         end
-        
-        if (response.code == 201) || (response.code == 200)
+
+        if response && ((response.code == 201) || (response.code == 200))
           puts "Upload complete."
         else
-          puts "Upload failed. (#{response})"
+          puts "Upload failed. (response = #{response})"
         end
       end
 

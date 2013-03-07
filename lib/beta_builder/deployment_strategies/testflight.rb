@@ -7,7 +7,7 @@ module BetaBuilder
   module DeploymentStrategies
     class TestFlight < Strategy
       ENDPOINT = "https://testflightapp.com/api/builds.json"
-      
+
       def extended_configuration_for_strategy
         proc do
           def generate_release_notes(&block)
@@ -15,7 +15,7 @@ module BetaBuilder
           end
         end
       end
-      
+
       def deploy
         release_notes = get_notes
         payload = {
@@ -40,12 +40,12 @@ module BetaBuilder
           end
           puts "release notes: #{release_notes}"
         end
-        
-        if @configuration.dry_run 
+
+        if @configuration.dry_run
           puts '** Dry Run - No action here! **'
           return
         end
-        
+
         begin
           response = RestClient.post(ENDPOINT, payload, :accept => :json)
         rescue => e
@@ -58,14 +58,14 @@ module BetaBuilder
           puts "Upload failed. (#{response})"
         end
       end
-      
+
       private
-      
+
       def get_notes
         notes = @configuration.release_notes_text
         notes || get_notes_using_editor || get_notes_using_prompt
       end
-      
+
       def get_notes_using_editor
         return unless (editor = ENV["EDITOR"])
 
@@ -78,12 +78,12 @@ module BetaBuilder
           rm_rf(dir)
         end
       end
-      
+
       def get_notes_using_prompt
         puts "Enter the release notes for this build (hit enter twice when done):\n"
         @configuration.release_notes = gets_until_match(/\n{2}$/).strip
       end
-      
+
       def gets_until_match(pattern, string = "")
         if (string += STDIN.gets) =~ pattern
           string

@@ -22,6 +22,7 @@ module BetaBuilder
         :arch => nil,
         :xcode4_archive_mode => false,
         :skip_clean => false,
+        :sdk => "iphoneos",
         :verbose => false,
         :dry_run => false
       )
@@ -46,7 +47,7 @@ module BetaBuilder
           raise "A scheme is required if building from a workspace" unless scheme
           args << "-workspace '#{workspace_path}' -scheme '#{scheme}' -configuration '#{configuration}'"
         else
-          args = "-target '#{target}' -configuration '#{configuration}' -sdk iphoneos"
+          args = "-target '#{target}' -configuration '#{configuration}' -sdk #{sdk}"
           args << " -project #{project_file_path}" if project_file_path
         end
 

@@ -25,8 +25,8 @@ module BetaBuilder
           unless res
             puts "Failed to create temp release notes file"
           else
-            puts "Distributing build on Crashlytics..."
-            res = system("#{@configuration.project_name}/ext/Crashlytics.framework/submit #{@configuration.api_key} #{@configuration.build_secret} -ipaPath #{@configuration.ipa_path} -emails #{@configuration.emails} -notesPath #{filepath}")
+            puts "Distributing build on Crashlytics... #{@configuration.framework_path}"
+            res = system("#{@configuration.framework_path}/Crashlytics.framework/submit #{@configuration.api_key} #{@configuration.build_secret} -ipaPath #{@configuration.ipa_path} -emails #{@configuration.emails} -notesPath #{filepath}")
             if res
               puts "Upload complete."
             else
